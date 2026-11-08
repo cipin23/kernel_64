@@ -509,9 +509,9 @@ int smcdsd_panel_get_params_from_dt(struct LCM_PARAMS *params)
 	__smcdsd_panel_get_params_from_dt(params);
 
 	if (params->dsi.horizontal_backporch == 136 && params->dsi.horizontal_frontporch == 136) {
-		params->dsi.horizontal_backporch = 104;
-		params->dsi.horizontal_frontporch = 104;
-		pr_info("lcd_oc: ili7806s porch 136 -> 104\n");
+		params->dsi.horizontal_backporch = 88;
+		params->dsi.horizontal_frontporch = 88;
+		pr_info("lcd_oc: ili7806s porch 136 -> 88\n");
 	}
 
 	params->dsi.vertical_active_line = params->dsi.vertical_active_line ? params->dsi.vertical_active_line : params->height;
