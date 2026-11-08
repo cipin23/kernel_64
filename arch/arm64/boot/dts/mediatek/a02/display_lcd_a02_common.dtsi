@@ -180,8 +180,8 @@
 				lcm_params-dsi-vertical_backporch = <6>;
 				lcm_params-dsi-vertical_frontporch = <38>;
 				lcm_params-dsi-horizontal_sync_active = <12>;
-				lcm_params-dsi-horizontal_backporch = <136>;
-				lcm_params-dsi-horizontal_frontporch = <136>;
+				lcm_params-dsi-horizontal_backporch = <72>;
+				lcm_params-dsi-horizontal_frontporch = <72>;
 
 				lcm_params-dsi-data_rate = <830>;
 				lcm_params-dsi-ssc_disable = <1>;
