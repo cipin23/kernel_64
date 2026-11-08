@@ -506,6 +506,7 @@ EXPORT_SYMBOL(mmc_remove_host);
  */
 void mmc_free_host(struct mmc_host *host)
 {
+	cancel_delayed_work_sync(&host->detect);
 	mmc_crypto_free_host(host);
 	mmc_pwrseq_free(host);
 #ifdef CONFIG_MMC_BLOCK_DEFERRED_RESUME
