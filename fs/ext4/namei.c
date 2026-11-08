@@ -1579,11 +1579,10 @@ static struct buffer_head *__ext4_find_entry(struct inode *dir,
 					     &has_inline_data);
 		if (lblk)
 			*lblk = 0;
-		if (has_inline_data) {
-			if (inlined)
-				*inlined = 1;
+		if (inlined)
+			*inlined = has_inline_data;
+		if (has_inline_data)
 			goto cleanup_and_exit;
-		}
 	}
 
 	if ((namelen <= 2) && (name[0] == '.') &&
@@ -4120,6 +4119,9 @@ static int ext4_cross_rename(struct inode *old_dir, struct dentry *old_dentry,
 		return -EXDEV;
 
 	retval = dquot_initialize(old.dir);
+	if (retval)
+		return retval;
+	retval = dquot_initialize(old.inode);
 	if (retval)
 		return retval;
 	retval = dquot_initialize(new.dir);
