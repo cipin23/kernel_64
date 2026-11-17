@@ -35,6 +35,7 @@ jobs:
       - name: Make Zip
         run: |
           cd ${GITHUB_WORKSPACE}
+          export TERM=xterm
           ./pack
           export DEVICE_NAME=SM-A022F
           mv log/boot_* boot.img
