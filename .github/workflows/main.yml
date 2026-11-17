@@ -41,7 +41,6 @@ jobs:
           export DEVICE_NAME=SM-A022F
           mv log/boot_* boot.img
           zip -r9 ${DEVICE_NAME}-${{ steps.props.outputs.date }}.zip boot.img
-          cp *.zip ${{ github.workspace }}/.
         
       - name: Release
         uses: ncipollo/release-action@v1.12.0
