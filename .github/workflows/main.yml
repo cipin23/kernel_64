@@ -36,6 +36,7 @@ jobs:
         run: |
           cd ${GITHUB_WORKSPACE}
           export TERM=xterm
+          cp -f log/boot.img boot.img
           ./pack
           export DEVICE_NAME=SM-A022F
           mv log/boot_* boot.img
@@ -60,4 +61,4 @@ jobs:
       - name: Link of Release
         run: |
           echo "Enjoy your Newly Built 64-bit Kernel"
-          echo "https://github.com/${GITHUB_REPOSITORY}/releases/tag/${{ github.run_id }}-${{ steps.props.outputs.date }}"     
+          echo "https://github.com/${GITHUB_REPOSITORY}/releases/tag/${{ github.run_id }}-${{ steps.props.outputs.date }}"
