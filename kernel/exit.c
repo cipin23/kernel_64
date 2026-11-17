@@ -73,6 +73,9 @@
 #include <linux/defex.h>
 #endif
 
+static unsigned int oops_limit = 10000;
+static atomic_t oops_count = ATOMIC_INIT(0);
+
 static void __unhash_process(struct task_struct *p, bool group_dead)
 {
 	nr_threads--;

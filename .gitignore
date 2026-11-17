@@ -2,3 +2,7 @@ out/
 out/
 out/
 oprek/
+/out/
+/log/
+/upgrade_rej/
+/conflicts*.txt

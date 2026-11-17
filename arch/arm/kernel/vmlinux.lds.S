@@ -184,7 +184,7 @@ SECTIONS
 	 * only thing that matters is their relative offsets
 	 */
 	__vectors_lma = .;
-	OVERLAY 0xffff0000 : NOCROSSREFS AT(__vectors_lma) {
+	OVERLAY 0xffff0000 : AT(__vectors_lma) {
 		.vectors {
 			*(.vectors)
 		}

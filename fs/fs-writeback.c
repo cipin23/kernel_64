@@ -1374,8 +1374,6 @@ __writeback_single_inode(struct inode *inode, struct writeback_control *wbc)
 	long nr_to_write = wbc->nr_to_write;
 	unsigned dirty;
 	int ret;
-	/* @fs.sec -- 62cf6bdd87a5c084b05e3bb9a11045a339d42a6b -- */
-	bool newly_dirty = false;
 
 	WARN_ON(!(inode->i_state & I_SYNC));
 
@@ -1416,14 +1414,6 @@ __writeback_single_inode(struct inode *inode, struct writeback_control *wbc)
 	 */
 	spin_lock(&inode->i_lock);
 	dirty = inode->i_state & I_DIRTY;
-	if ((inode->i_state & I_DIRTY_TIME) &&
-	    ((dirty & (I_DIRTY_SYNC | I_DIRTY_DATASYNC)) ||
-	     wbc->sync_mode == WB_SYNC_ALL || wbc->for_sync ||
-	     time_after(jiffies, inode->dirtied_time_when +
-			dirtytime_expire_interval * HZ))) {
-		dirty |= I_DIRTY_TIME;
-		trace_writeback_lazytime(inode);
-	}
 	inode->i_state &= ~dirty;
 
 	/*
@@ -1440,14 +1430,10 @@ __writeback_single_inode(struct inode *inode, struct writeback_control *wbc)
 	smp_mb();
 
 	if (mapping_tagged(mapping, PAGECACHE_TAG_DIRTY))
-		newly_dirty = true;
+		inode->i_state |= I_DIRTY_PAGES;
 
 	spin_unlock(&inode->i_lock);
 
-	if (newly_dirty)
-		__mark_inode_dirty(inode, I_DIRTY_PAGES);
-	if (dirty & I_DIRTY_TIME)
-		mark_inode_dirty_sync(inode);
 	/* Don't write the inode if only I_DIRTY_PAGES was set */
 	if (dirty & ~I_DIRTY_PAGES) {
 		int err = write_inode(inode, wbc);
@@ -2162,9 +2148,6 @@ void __mark_inode_dirty(struct inode *inode, int flags)
 	if (((inode->i_state & flags) == flags) ||
 	    (dirtytime && (inode->i_state & I_DIRTY_INODE)))
 		return;
-
-	if (unlikely(block_dump > 1))
-		block_dump___mark_inode_dirty(inode);
 
 	spin_lock(&inode->i_lock);
 	if (dirtytime && (inode->i_state & I_DIRTY_INODE))

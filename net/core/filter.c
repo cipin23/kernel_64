@@ -21,6 +21,7 @@
  * Kris Katterjohn - Added many additional checks in bpf_check_classic()
  */
 
+#define BPF_SKB_MAX_LEN SKB_MAX_ALLOC
 #include <linux/module.h>
 #include <linux/types.h>
 #include <linux/mm.h>

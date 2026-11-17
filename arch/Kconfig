@@ -1114,3 +1114,6 @@ config RELR
 	  are compatible).
 
 source "kernel/gcov/Kconfig"
+
+config ARCH_HAS_CPU_FINALIZE_INIT
+	bool
