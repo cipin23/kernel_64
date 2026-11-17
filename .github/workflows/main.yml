@@ -28,8 +28,9 @@ jobs:
           export KBUILD_BUILD_USER="${{ github.actor }}"
           export KBUILD_BUILD_HOST="${{ github.event.inputs.DEVICE_NAME }}"
           chmod +x -R toolchain
-          chmod +x z64
-          ./z64
+          chmod +x pack
+          chmod +x z
+          ./z
 
       - name: Set Properties
         id: props
@@ -39,10 +40,10 @@ jobs:
       - name: Make Zip
         run: |
           cd ${GITHUB_WORKSPACE}
-          cd out/arch/arm64/boot
+          ./pack
           export DEVICE_NAME=SM-A022F
-          mv Image.gz-dtb boot.img-kernel
-          zip -r9 ${DEVICE_NAME}-${{ steps.props.outputs.date }}.zip boot.img-kernel
+          mv log/boot_* boot.img
+          zip -r9 ${DEVICE_NAME}-${{ steps.props.outputs.date }}.zip boot.img
           cp *.zip ${{ github.workspace }}/.
         
       - name: Release
